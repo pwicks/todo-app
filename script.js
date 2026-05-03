@@ -2,9 +2,33 @@
 const todoInput = document.getElementById('todoInput');
 const addBtn = document.getElementById('addBtn');
 const todoList = document.getElementById('todoList');
+const themeToggle = document.getElementById('themeToggle');
 
 // Load todos from localStorage on page load
-document.addEventListener('DOMContentLoaded', loadTodos);
+document.addEventListener('DOMContentLoaded', () => {
+    loadTodos();
+    loadTheme();
+});
+
+// Theme toggle
+themeToggle.addEventListener('click', toggleTheme);
+
+function toggleTheme() {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const newTheme = isDark ? 'light' : 'dark';
+    applyTheme(newTheme);
+    localStorage.setItem('theme', newTheme);
+}
+
+function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+}
+
+function loadTheme() {
+    const saved = localStorage.getItem('theme') || 'light';
+    applyTheme(saved);
+}
 
 // Add event listeners
 addBtn.addEventListener('click', addTodo);
